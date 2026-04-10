@@ -3,7 +3,7 @@
 Minimal single-line statusline plugin for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 
 ```
-[Opus 4.6] │ Ctx ███░░░░░ 42% │ ~/projects/dashboard git:(main*) │ Usage 5h ███░░░░░░░░░░░░ 23% reset 2h │ 7d █░░░░░░░░░░░░░░ 8% reset 4d 23h
+[Opus 4.6] │ Ctx ███░░░░░ 42% │ ~/projects/dashboard git:(main*) │ Usage 5h ███░░░░░░░░░ 23% reset 2h │ 7d █░░░░░░░░░░░ 8% reset 4d 23h
 ```
 
 One line. Model, context, project, git, usage. That's it.
@@ -92,8 +92,8 @@ Then point `statusLine.command` to the built `dist/index.js`.
 | Model | `[Opus 4.6]` | Always |
 | Context | `Ctx ███░░░░░ 42%` | Always |
 | Project + Git | `~/projects/app git:(main*)` | Always (git part only in repos) |
-| 5h Usage | `Usage 5h ███░░░░░░░░░░░░ 23% reset 2h` | Subscription only |
-| 7d Usage | `7d █░░░░░░░░░░░░░░ 8% reset 4d 23h` | Subscription only |
+| 5h Usage | `Usage 5h ███░░░░░░░░░ 23% reset 2h` | Subscription only |
+| 7d Usage | `7d █░░░░░░░░░░░ 8% reset 4d 23h` | Subscription only |
 
 ### Color Thresholds
 
