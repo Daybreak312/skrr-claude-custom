@@ -87,11 +87,14 @@ function getContextPercent(stdin) {
         + (usage?.cache_read_input_tokens ?? 0);
     return Math.min(100, Math.round((total / size) * 100));
 }
-function getProjectName(cwd) {
+function getProjectPath(cwd) {
     if (!cwd)
         return '';
-    const segments = cwd.split(/[/\\]/).filter(Boolean);
-    return segments.length > 0 ? segments[segments.length - 1] : '/';
+    const home = process.env.HOME ?? process.env.USERPROFILE ?? '';
+    if (home && cwd.startsWith(home)) {
+        return '~' + cwd.slice(home.length);
+    }
+    return cwd;
 }
 function getGitBranch(cwd) {
     if (!cwd)
@@ -146,6 +149,12 @@ function contextBar(percent, width) {
     const color = percent >= 90 ? RED : percent >= 70 ? YELLOW : GREEN;
     return `${color}${'█'.repeat(filled)}${DIM}${'░'.repeat(empty)}${RESET}`;
 }
+function usageBar(percent, width) {
+    const filled = Math.round((percent / 100) * width);
+    const empty = width - filled;
+    const color = usageColor(percent);
+    return `${color}${'█'.repeat(filled)}${DIM}${'░'.repeat(empty)}${RESET}`;
+}
 function usageColor(percent) {
     if (percent >= 90)
         return RED;
@@ -161,21 +170,21 @@ function render(stdin) {
     // [Model]
     const model = getModelLabel(stdin);
     parts.push(`${CYAN}[${model}]${RESET}`);
-    // Context bar + percent
+    // Context bar + percent + label
     const percent = getContextPercent(stdin);
     const bar = contextBar(percent, 8);
     const pColor = percent >= 90 ? RED : percent >= 70 ? YELLOW : GREEN;
-    parts.push(`${bar} ${pColor}${percent}%${RESET}`);
-    // Project + git
-    const project = getProjectName(stdin.cwd);
-    if (project) {
+    parts.push(`${DIM}Ctx${RESET} ${bar} ${pColor}${percent}%${RESET}`);
+    // Full project path + git
+    const projectPath = getProjectPath(stdin.cwd);
+    if (projectPath) {
         const branch = getGitBranch(stdin.cwd);
         if (branch) {
             const dirty = isGitDirty(stdin.cwd) ? '*' : '';
-            parts.push(`${YELLOW}${project}${RESET} ${MAGENTA}git:(${CYAN}${branch}${dirty}${MAGENTA})${RESET}`);
+            parts.push(`${YELLOW}${projectPath}${RESET} ${MAGENTA}git:(${CYAN}${branch}${dirty}${MAGENTA})${RESET}`);
         }
         else {
-            parts.push(`${YELLOW}${project}${RESET}`);
+            parts.push(`${YELLOW}${projectPath}${RESET}`);
         }
     }
     // Usage — only shown when rate_limits exist (= subscription)
@@ -185,13 +194,13 @@ function render(stdin) {
         const sevenDay = parsePercent(rateLimits.seven_day?.used_percentage);
         if (fiveHour !== null) {
             const reset = formatResetTime(rateLimits.five_hour?.resets_at);
-            const resetStr = reset ? `${DIM}(${reset})${RESET}` : '';
-            parts.push(`${DIM}5h${RESET} ${usageColor(fiveHour)}${fiveHour}%${RESET}${resetStr}`);
+            const resetStr = reset ? ` ${DIM}reset ${reset}${RESET}` : '';
+            parts.push(`${DIM}Usage 5h${RESET} ${usageBar(fiveHour, 6)} ${usageColor(fiveHour)}${fiveHour}%${RESET}${resetStr}`);
         }
         if (sevenDay !== null) {
             const reset = formatResetTime(rateLimits.seven_day?.resets_at);
-            const resetStr = reset ? `${DIM}(${reset})${RESET}` : '';
-            parts.push(`${DIM}7d${RESET} ${usageColor(sevenDay)}${sevenDay}%${RESET}${resetStr}`);
+            const resetStr = reset ? ` ${DIM}reset ${reset}${RESET}` : '';
+            parts.push(`${DIM}7d${RESET} ${usageBar(sevenDay, 6)} ${usageColor(sevenDay)}${sevenDay}%${RESET}${resetStr}`);
         }
     }
     console.log(parts.join(`${DIM} │ ${RESET}`));
