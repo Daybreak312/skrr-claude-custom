@@ -1,0 +1,19 @@
+{
+  "name": "skrr-claude-custom",
+  "owner": {
+    "name": "daybreak312"
+  },
+  "metadata": {
+    "description": "Minimal single-line statusline for Claude Code",
+    "version": "0.0.1"
+  },
+  "plugins": [
+    {
+      "name": "skrr-claude-custom",
+      "source": "./",
+      "description": "Single-line statusline — model, context, project, git, subscription usage",
+      "category": "monitoring",
+      "tags": ["statusline", "hud", "usage", "minimal"]
+    }
+  ]
+}
