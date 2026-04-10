@@ -1,0 +1,19 @@
+{
+  "name": "skrr-claude-custom",
+  "version": "0.0.1",
+  "description": "Minimal single-line statusline for Claude Code",
+  "type": "module",
+  "main": "dist/index.js",
+  "files": ["dist/", "src/", ".claude-plugin/"],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
+  }
+}

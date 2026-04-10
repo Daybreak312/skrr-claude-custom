@@ -1,0 +1,11 @@
+{
+  "name": "skrr-claude-custom",
+  "description": "Minimal single-line statusline — model, context, usage, git",
+  "version": "0.0.1",
+  "author": {
+    "name": "daybreak312"
+  },
+  "commands": [],
+  "repository": "https://github.com/daybreak312/skrr-claude-custom",
+  "license": "MIT"
+}
