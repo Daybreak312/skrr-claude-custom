@@ -138,9 +138,14 @@ function formatResetTime(resetAt) {
     const mins = Math.ceil(diffMs / 60000);
     if (mins < 60)
         return `${mins}m`;
-    const h = Math.floor(mins / 60);
+    const totalHours = Math.floor(mins / 60);
     const m = mins % 60;
-    return m > 0 ? `${h}h${m}m` : `${h}h`;
+    if (totalHours >= 24) {
+        const d = Math.floor(totalHours / 24);
+        const h = totalHours % 24;
+        return h > 0 ? `${d}d ${h}h` : `${d}d`;
+    }
+    return m > 0 ? `${totalHours}h ${m}m` : `${totalHours}h`;
 }
 // ─── Bar Renderers ───────────────────────────────────────────────────
 function contextBar(percent, width) {
