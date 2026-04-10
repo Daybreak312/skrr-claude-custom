@@ -14,43 +14,37 @@ One line. Model, context, project, git, usage. That's it.
 
 ## Install
 
-### Option A: Claude Code Plugin Marketplace (Recommended)
+### Option A: Plugin Marketplace (Recommended)
 
-Register the repo as a marketplace source, then install:
+Run the following commands **inside Claude Code**:
 
-```bash
-# 1. Add marketplace source to settings
-claude settings set extraKnownMarketplaces.skrr-claude-custom.source.source github
-claude settings set extraKnownMarketplaces.skrr-claude-custom.source.repo Daybreak312/skrr-claude-custom
-
-# 2. Install plugin
-claude /plugin install skrr-claude-custom
-
-# 3. Configure statusline (find your node path first)
-NODE_PATH=$(which node)
-PLUGIN_DIR="$HOME/.claude/plugins/cache/skrr-claude-custom/skrr-claude-custom"
-VERSION=$(ls "$PLUGIN_DIR" | sort -V | tail -1)
-
-# 4. Write statusline config
-claude settings set statusLine.type command
-claude settings set statusLine.command "$NODE_PATH $PLUGIN_DIR/$VERSION/dist/index.js"
+**Step 1: Add the marketplace**
+```
+/plugin marketplace add Daybreak312/skrr-claude-custom
 ```
 
-Or add this to `~/.claude/settings.json` manually:
+**Step 2: Install the plugin**
+```
+/plugin install skrr-claude-custom
+```
 
-```jsonc
+**Step 3: Reload plugins**
+```
+/reload-plugins
+```
+
+**Step 4: Configure the statusline**
+
+After the plugin is installed, set up the statusline command. Run this **inside Claude Code**:
+
+```
+Tell Claude: "Set my statusLine to use skrr-claude-custom plugin"
+```
+
+Or manually edit `~/.claude/settings.json`:
+
+```json
 {
-  // Register marketplace
-  "extraKnownMarketplaces": {
-    "skrr-claude-custom": {
-      "source": { "source": "github", "repo": "Daybreak312/skrr-claude-custom" }
-    }
-  },
-  // Enable plugin
-  "enabledPlugins": {
-    "skrr-claude-custom@skrr-claude-custom": true
-  },
-  // Statusline command (adjust path to your node)
   "statusLine": {
     "type": "command",
     "command": "node ~/.claude/plugins/cache/skrr-claude-custom/skrr-claude-custom/<VERSION>/dist/index.js"
@@ -58,14 +52,19 @@ Or add this to `~/.claude/settings.json` manually:
 }
 ```
 
+Replace `<VERSION>` with the installed version (e.g. `0.0.1`).
+
+**Step 5: Restart Claude Code**
+
+Quit and reopen Claude Code for the statusline to appear.
+
 ### Option B: Manual Clone
 
 ```bash
-# 1. Clone
 git clone https://github.com/Daybreak312/skrr-claude-custom.git ~/.skrr-claude-custom
-
-# 2. Set statusline in ~/.claude/settings.json
 ```
+
+Then edit `~/.claude/settings.json`:
 
 ```json
 {
@@ -75,6 +74,8 @@ git clone https://github.com/Daybreak312/skrr-claude-custom.git ~/.skrr-claude-c
   }
 }
 ```
+
+Restart Claude Code.
 
 ### Option C: Build from Source
 
@@ -110,10 +111,6 @@ Then point `statusLine.command` to the built `dist/index.js`.
 
 - Node.js >= 18 (or Bun)
 - Claude Code with statusLine support
-
-## Restart
-
-After changing `settings.json`, **restart Claude Code** for the statusline to take effect.
 
 ## License
 
