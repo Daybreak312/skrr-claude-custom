@@ -197,15 +197,16 @@ function render(stdin) {
     if (rateLimits) {
         const fiveHour = parsePercent(rateLimits.five_hour?.used_percentage);
         const sevenDay = parsePercent(rateLimits.seven_day?.used_percentage);
+        parts.push(`${DIM}Usage${RESET}`);
         if (fiveHour !== null) {
             const reset = formatResetTime(rateLimits.five_hour?.resets_at);
-            const resetStr = reset ? ` ${DIM}reset ${reset}${RESET}` : '';
-            parts.push(`${DIM}Usage 5h${RESET} ${usageBar(fiveHour, 12)} ${usageColor(fiveHour)}${fiveHour}%${RESET}${resetStr}`);
+            const meta = reset ? `per 5h, resets in ${reset}` : 'per 5h';
+            parts.push(`${usageBar(fiveHour, 12)} ${usageColor(fiveHour)}${fiveHour}%${RESET} ${DIM}(${meta})${RESET}`);
         }
         if (sevenDay !== null) {
             const reset = formatResetTime(rateLimits.seven_day?.resets_at);
-            const resetStr = reset ? ` ${DIM}reset ${reset}${RESET}` : '';
-            parts.push(`${DIM}7d${RESET} ${usageBar(sevenDay, 12)} ${usageColor(sevenDay)}${sevenDay}%${RESET}${resetStr}`);
+            const meta = reset ? `per 7d, resets in ${reset}` : 'per 7d';
+            parts.push(`${usageBar(sevenDay, 12)} ${usageColor(sevenDay)}${sevenDay}%${RESET} ${DIM}(${meta})${RESET}`);
         }
     }
     console.log(parts.join(`${DIM} │ ${RESET}`));
