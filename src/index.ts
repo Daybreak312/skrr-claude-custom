@@ -219,13 +219,13 @@ function render(stdin: StdinData): void {
     if (fiveHour !== null) {
       const reset = formatResetTime(rateLimits.five_hour?.resets_at);
       const resetStr = reset ? ` ${DIM}reset ${reset}${RESET}` : '';
-      parts.push(`${DIM}Usage 5h${RESET} ${usageBar(fiveHour, 6)} ${usageColor(fiveHour)}${fiveHour}%${RESET}${resetStr}`);
+      parts.push(`${DIM}Usage 5h${RESET} ${usageBar(fiveHour, 15)} ${usageColor(fiveHour)}${fiveHour}%${RESET}${resetStr}`);
     }
 
     if (sevenDay !== null) {
       const reset = formatResetTime(rateLimits.seven_day?.resets_at);
       const resetStr = reset ? ` ${DIM}reset ${reset}${RESET}` : '';
-      parts.push(`${DIM}7d${RESET} ${usageBar(sevenDay, 6)} ${usageColor(sevenDay)}${sevenDay}%${RESET}${resetStr}`);
+      parts.push(`${DIM}7d${RESET} ${usageBar(sevenDay, 15)} ${usageColor(sevenDay)}${sevenDay}%${RESET}${resetStr}`);
     }
   }
 
