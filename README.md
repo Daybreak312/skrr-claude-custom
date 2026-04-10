@@ -3,7 +3,7 @@
 Minimal single-line statusline plugin for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 
 ```
-[Opus 4.6] │ ███░░░░░ 42% │ dashboard git:(main*) │ 5h 23%(2h) │ 7d 8%(96h)
+[Opus 4.6] │ Ctx ███░░░░░ 42% │ ~/projects/dashboard git:(main*) │ Usage 5h ███░░░░░░░░░░░░ 23% reset 2h │ 7d █░░░░░░░░░░░░░░ 8% reset 4d 23h
 ```
 
 One line. Model, context, project, git, usage. That's it.
@@ -34,11 +34,8 @@ Run the following commands **inside Claude Code**:
 ```
 
 **Step 4: Configure the statusline**
-
-After the plugin is installed, set up the statusline command. Run this **inside Claude Code**:
-
 ```
-Tell Claude: "Set my statusLine to use skrr-claude-custom plugin"
+/skrr-claude-custom:setup
 ```
 
 Or manually edit `~/.claude/settings.json`:
@@ -47,12 +44,12 @@ Or manually edit `~/.claude/settings.json`:
 {
   "statusLine": {
     "type": "command",
-    "command": "node ~/.claude/plugins/cache/skrr-claude-custom/skrr-claude-custom/<VERSION>/dist/index.js"
+    "command": "bash -c 'p=$(ls -d \"${CLAUDE_CONFIG_DIR:-$HOME/.claude}\"/plugins/cache/skrr-claude-custom/skrr-claude-custom/*/ 2>/dev/null | sort -V | tail -1); exec node \"${p}dist/index.js\"'"
   }
 }
 ```
 
-Replace `<VERSION>` with the installed version (e.g. `0.0.1`).
+This command is **portable** — it dynamically finds the plugin path and uses `node` from PATH. Works on any machine without editing paths.
 
 **Step 5: Restart Claude Code**
 
@@ -93,10 +90,10 @@ Then point `statusLine.command` to the built `dist/index.js`.
 | Segment | Example | When |
 |---------|---------|------|
 | Model | `[Opus 4.6]` | Always |
-| Context | `███░░░░░ 42%` | Always |
-| Project + Git | `dashboard git:(main*)` | Always (git part only in repos) |
-| 5h Usage | `5h 23%(2h)` | Subscription only |
-| 7d Usage | `7d 8%(96h)` | Subscription only |
+| Context | `Ctx ███░░░░░ 42%` | Always |
+| Project + Git | `~/projects/app git:(main*)` | Always (git part only in repos) |
+| 5h Usage | `Usage 5h ███░░░░░░░░░░░░ 23% reset 2h` | Subscription only |
+| 7d Usage | `7d █░░░░░░░░░░░░░░ 8% reset 4d 23h` | Subscription only |
 
 ### Color Thresholds
 

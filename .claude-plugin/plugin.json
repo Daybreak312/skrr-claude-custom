@@ -5,7 +5,7 @@
   "author": {
     "name": "daybreak312"
   },
-  "commands": [],
+  "commands": ["./commands/setup.md"],
   "repository": "https://github.com/daybreak312/skrr-claude-custom",
   "license": "MIT"
 }
