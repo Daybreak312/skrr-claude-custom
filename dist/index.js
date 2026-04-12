@@ -10,7 +10,7 @@ const MAGENTA = '\x1b[35m';
 const BLUE = '\x1b[34m';
 const BRIGHT_BLUE = '\x1b[94m';
 const BRIGHT_MAGENTA = '\x1b[95m';
-const GRAY = '\x1b[37m';
+const GRAY = '\x1b[38;5;250m';
 // ─── Stdin Reader ────────────────────────────────────────────────────
 function readStdin() {
     if (process.stdin.isTTY)
