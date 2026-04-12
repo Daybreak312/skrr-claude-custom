@@ -185,10 +185,10 @@ function render(stdin) {
         const branch = getGitBranch(stdin.cwd);
         if (branch) {
             const dirty = isGitDirty(stdin.cwd) ? '*' : '';
-            parts.push(`${GRAY}${projectPath}${RESET} ${MAGENTA}git:(${CYAN}${branch}${dirty}${MAGENTA})${RESET}`);
+            parts.push(`${DIM}${projectPath}${RESET} ${MAGENTA}git:(${CYAN}${branch}${dirty}${MAGENTA})${RESET}`);
         }
         else {
-            parts.push(`${GRAY}${projectPath}${RESET}`);
+            parts.push(`${DIM}${projectPath}${RESET}`);
         }
     }
     // Usage — only shown when rate_limits exist (= subscription)
