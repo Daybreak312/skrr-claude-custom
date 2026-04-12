@@ -10,6 +10,7 @@ const MAGENTA = '\x1b[35m';
 const BLUE = '\x1b[34m';
 const BRIGHT_BLUE = '\x1b[94m';
 const BRIGHT_MAGENTA = '\x1b[95m';
+const WHITE = '\x1b[97m';
 // ─── Stdin Reader ────────────────────────────────────────────────────
 function readStdin() {
     if (process.stdin.isTTY)
@@ -151,8 +152,7 @@ function formatResetTime(resetAt) {
 function contextBar(percent, width) {
     const filled = Math.round((percent / 100) * width);
     const empty = width - filled;
-    const color = percent >= 90 ? RED : percent >= 70 ? YELLOW : GREEN;
-    return `${color}${'█'.repeat(filled)}${DIM}${'░'.repeat(empty)}${RESET}`;
+    return `${WHITE}${'█'.repeat(filled)}${DIM}${'░'.repeat(empty)}${RESET}`;
 }
 function usageBar(percent, width) {
     const filled = Math.round((percent / 100) * width);
@@ -178,18 +178,17 @@ function render(stdin) {
     // Context bar + percent + label
     const percent = getContextPercent(stdin);
     const bar = contextBar(percent, 8);
-    const pColor = percent >= 90 ? RED : percent >= 70 ? YELLOW : GREEN;
-    parts.push(`${DIM}Ctx${RESET} ${bar} ${pColor}${percent}%${RESET}`);
+    parts.push(`${DIM}Context${RESET} ${bar} ${WHITE}${percent}%${RESET}`);
     // Full project path + git
     const projectPath = getProjectPath(stdin.cwd);
     if (projectPath) {
         const branch = getGitBranch(stdin.cwd);
         if (branch) {
             const dirty = isGitDirty(stdin.cwd) ? '*' : '';
-            parts.push(`${YELLOW}${projectPath}${RESET} ${MAGENTA}git:(${CYAN}${branch}${dirty}${MAGENTA})${RESET}`);
+            parts.push(`${WHITE}${projectPath}${RESET} ${MAGENTA}git:(${CYAN}${branch}${dirty}${MAGENTA})${RESET}`);
         }
         else {
-            parts.push(`${YELLOW}${projectPath}${RESET}`);
+            parts.push(`${WHITE}${projectPath}${RESET}`);
         }
     }
     // Usage — only shown when rate_limits exist (= subscription)
