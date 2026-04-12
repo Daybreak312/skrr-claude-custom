@@ -34,7 +34,7 @@ const MAGENTA = '\x1b[35m';
 const BLUE = '\x1b[34m';
 const BRIGHT_BLUE = '\x1b[94m';
 const BRIGHT_MAGENTA = '\x1b[95m';
-const WHITE = '\x1b[97m';
+const GRAY = '\x1b[37m';
 
 // ─── Stdin Reader ────────────────────────────────────────────────────
 
@@ -166,7 +166,7 @@ function formatResetTime(resetAt: number | null | undefined): string {
 function contextBar(percent: number, width: number): string {
   const filled = Math.round((percent / 100) * width);
   const empty = width - filled;
-  return `${WHITE}${'█'.repeat(filled)}${DIM}${'░'.repeat(empty)}${RESET}`;
+  return `${GRAY}${'█'.repeat(filled)}${DIM}${'░'.repeat(empty)}${RESET}`;
 }
 
 function usageBar(percent: number, width: number): string {
@@ -195,7 +195,7 @@ function render(stdin: StdinData): void {
   // Context bar + percent + label
   const percent = getContextPercent(stdin);
   const bar = contextBar(percent, 8);
-  parts.push(`${DIM}Context${RESET} ${bar} ${WHITE}${percent}%${RESET}`);
+  parts.push(`${DIM}Context${RESET} ${bar} ${GRAY}${percent}%${RESET}`);
 
   // Full project path + git
   const projectPath = getProjectPath(stdin.cwd);
@@ -203,9 +203,9 @@ function render(stdin: StdinData): void {
     const branch = getGitBranch(stdin.cwd);
     if (branch) {
       const dirty = isGitDirty(stdin.cwd) ? '*' : '';
-      parts.push(`${WHITE}${projectPath}${RESET} ${MAGENTA}git:(${CYAN}${branch}${dirty}${MAGENTA})${RESET}`);
+      parts.push(`${GRAY}${projectPath}${RESET} ${MAGENTA}git:(${CYAN}${branch}${dirty}${MAGENTA})${RESET}`);
     } else {
-      parts.push(`${WHITE}${projectPath}${RESET}`);
+      parts.push(`${GRAY}${projectPath}${RESET}`);
     }
   }
 
